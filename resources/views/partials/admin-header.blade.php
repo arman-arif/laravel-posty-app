@@ -1,11 +1,10 @@
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a href="" class="navbar-brand">Laravel Guide</a>
+            <a class="navbar-brand" href="">Laravel Guide</a>
             <ul class="nav navbar-nav">
-                <li><a href="">Blog</a></li>
-                <li><a href="">About</a></li>
+                <li class="active"><a href="">Posts</a></li>
             </ul>
         </div>
-    </div>
+    </div><!-- /.container-fluid -->
 </nav>
