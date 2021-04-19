@@ -24,12 +24,12 @@ Route::get('/admin/create', function () {
 
 Route::post('/admin/create', function () {
     return "Save post";
-})->name('admin.save');
+})->name('admin.create');
 
 Route::get('/admin/edit/{id}', function () {
     return view('admin.edit');
 })->name('admin.edit');
 
-Route::post('/admin/edit/{id}', function () {
+Route::post('/admin/edit', function () {
     return "Post update";
 })->name('admin.update');
