@@ -2,18 +2,17 @@
 
 use Illuminate\Support\Facades\Route;
 
-    Route::get('/', function () {
-        return view('blog.index');
-    })->name('blog.index');
-    
-    Route::get('about', function () {
-        return view('other.about');
-    })->name('other.about');
-    
-    Route::get('post/{id}', function () {
-        return view('blog.post');
-    })->name('blog.post');
+Route::get('/', function () {
+    return view('blog.index');
+})->name('blog.index');
 
+Route::get('about', function () {
+    return view('other.about');
+})->name('other.about');
+
+Route::get('post/{id}', function () {
+    return view('blog.post');
+})->name('blog.post');
 
 Route::group(['prefix'=>'admin'],function () {
     Route::get('/', function () {
