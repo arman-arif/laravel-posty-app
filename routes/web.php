@@ -15,6 +15,7 @@ Route::get('post/{id}', function () {
 })->name('blog.post');
 
 Route::group(['prefix'=>'admin'],function () {
+    
     Route::get('/', function () {
         return view('admin.index');
     })->name('admin.index');
@@ -34,4 +35,5 @@ Route::group(['prefix'=>'admin'],function () {
     Route::post('edit', function () {
         return "Post update";
     })->name('admin.update');
+    
 });
