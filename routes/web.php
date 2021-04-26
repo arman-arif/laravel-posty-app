@@ -34,7 +34,7 @@ Route::group(['prefix'=>'admin'],function () {
     Route::post('create', function (Request $request) {
         return redirect()
             ->route('admin.index')
-            ->with('info','New post added with Title ' . $request->input('title'));
+            ->with('info','New post added with Title: ' . $request->input('title'));
     })->name('admin.create');
 
     Route::get('edit/{id}', function ($id) {
@@ -48,7 +48,7 @@ Route::group(['prefix'=>'admin'],function () {
     Route::post('edit', function (Request $request) {
         return redirect()
             ->route('admin.index')
-            ->with('info','Post updated with new Title ' . $request->input('title'));
+            ->with('info','Post updated with new Title: ' . $request->input('title'));
     })->name('admin.update');
 
 });

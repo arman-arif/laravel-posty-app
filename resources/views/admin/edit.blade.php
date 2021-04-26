@@ -2,11 +2,6 @@
 
 @section('content')
     <div class="row">
-        @if(Session::has('info'))
-            <div class="col-md-8">
-                <p class="alert alert-info">{{ Session::get('info') }}</p>
-            </div>
-        @endif
         <div class="col-md-12">
             <form action="{{ route('admin.update') }}" method="post">
                 <div class="form-group">
