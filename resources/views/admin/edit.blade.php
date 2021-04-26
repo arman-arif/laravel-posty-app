@@ -2,6 +2,7 @@
 
 @section('content')
     <div class="row">
+        @include('partials.admin.error')
         <div class="col-md-12">
             <form action="{{ route('admin.update') }}" method="post">
                 <div class="form-group">

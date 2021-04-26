@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Validation\Factory;
 
 Route::get('/', function () {
     return view('blog.index');
@@ -31,7 +32,14 @@ Route::group(['prefix'=>'admin'],function () {
 
     })->name('admin.create');
 
-    Route::post('create', function (Request $request) {
+    Route::post('create', function (Request $request, Factory $validator) {
+        $validation = $validator->make($request->all(), [
+            'title' => 'required|min:10',
+            'content' => 'required|min:20',
+        ]);
+        if ($validation->fails()) {
+            return redirect()->back()->withErrors($validation);
+        }
         return redirect()
             ->route('admin.index')
             ->with('info','New post added with Title: ' . $request->input('title'));
@@ -45,7 +53,14 @@ Route::group(['prefix'=>'admin'],function () {
 
     })->name('admin.edit');
 
-    Route::post('edit', function (Request $request) {
+    Route::post('edit', function (Request $request, Factory $validator) {
+        $validation = $validator->make($request->all(), [
+            'title' => 'required|min:10',
+            'content' => 'required|min:20',
+        ]);
+        if ($validation->fails()) {
+            return redirect()->back()->withErrors($validation);
+        }
         return redirect()
             ->route('admin.index')
             ->with('info','Post updated with new Title: ' . $request->input('title'));
