@@ -3,22 +3,15 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Validation\Factory;
+use App\Http\Controllers\PostController;
 
-Route::get('/', function () {
-    return view('blog.index');
-})->name('blog.index');
+Route::get('/', [PostController::class, 'index'])->name('blog.index');
 
 Route::get('about', function () {
     return view('other.about');
 })->name('other.about');
 
-Route::get('post/{id}', function ($id) {
-
-    $post = getPost($id);
-
-    return view('blog.post', ['post' => $post]);
-
-})->name('blog.post');
+Route::get('post/{id}', [PostController::class, 'show'])->name('blog.post');
 
 Route::group(['prefix'=>'admin'],function () {
 
@@ -67,25 +60,3 @@ Route::group(['prefix'=>'admin'],function () {
     })->name('admin.update');
 
 });
-
-
-
-function getPost($id){
-    if ($id == 1) {
-        return [
-            'title' => 'Learning Laravel',
-            'content' => 'This blog post will get you right on track with Laravel!',
-        ];
-    }
-    if($id == 2) {
-        return [
-            'title' => 'The next Steps',
-            'content' => 'Understanding the Basics is great, but you need to be able to make the next steps.',
-        ];
-    }
-    return [
-            'title' => 'Something else',
-            'content' => 'Some other content',
-        ];
-
-}
