@@ -3,10 +3,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Model;
 
-class Post
+
+class Post extends Model
 {
-    public function all($session){
+    protected $fillable = ['title', 'content'];
+
+    public function getAll($session){
         if(!$session->has('posts')){
             $this->createDummyData($session);
         }
@@ -17,7 +21,7 @@ class Post
         return $this->all($session)[$id];
     }
 
-    public function add($session, $title, $content){
+    public function addNew($session, $title, $content){
         $posts = $this->all($session);
         array_push($posts, ['title'=>$title,'content'=>$content]);
         $session->put('posts',$posts);
