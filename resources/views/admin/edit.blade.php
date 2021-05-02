@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('content')
+@section('content', ['title' => 'Edit and update post'])
     <div class="row">
         @include('partials.admin.error')
         <div class="col-md-12">
