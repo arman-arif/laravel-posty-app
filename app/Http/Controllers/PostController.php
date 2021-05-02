@@ -8,38 +8,31 @@ use Illuminate\Session\Store;
 
 class PostController extends Controller
 {
-    public function getIndex(Store $session){
-        $post = new Post();
-        $posts = $post->getAll($session);
-
+    public function getIndex(){
+        $posts = Post::all();
         return view('blog.index', ['posts' => $posts]);
     }
 
-    public function getPost(Store $session, $id){
-        $post = new Post();
-        $post = $post->byId($session, $id);
-
+    public function getPost($id){
+        $post = Post::find($id);
         return view('blog.post', ['post' => $post]);
     }
 
-    public function getAdminIndex(Store $session){
-        $post = new Post();
-        $posts = $post->all($session);
-
+    public function getAdminIndex(){
+        $posts = Post::all();
         return view('admin.index', ['posts' => $posts]);
     }
 
-    public function getAdminCreate(Store $session){
+    public function getAdminCreate(){
         return view('admin.create');
     }
 
-    public function getAdminEdit(Store $session, $id){
-        $post = new Post();
-        $post = $post->byId($session, $id);
-        return view('admin.edit',['postId' => $id, 'post' => $post]);
+    public function getAdminEdit($id){
+        $post = Post::find($id);
+        return view('admin.edit',['post' => $post]);
     }
 
-    public function postAdminCreate(Store $session, Request $request){
+    public function postAdminCreate(Request $request){
         $this->validate($request, [
             'title' => 'required|min:10',
             'content' => 'required|min:20',
@@ -54,15 +47,23 @@ class PostController extends Controller
             ->with('info',"New post created, Title: " . $request->input('title'));
     }
 
-
-    public function postAdminUpdate(Store $session, Request $request){
+    public function postAdminUpdate(Request $request){
         $this->validate($request, [
             'title' => 'required|min:10',
             'content' => 'required|min:20',
         ]);
-        $post = new Post();
-        $post->edit($session,$request->input('id'),$request->input('title'),$request->input('content'));
+        $post = Post::find($request->input('id'));
+        $post->title = $request->input('title');
+        $post->content = $request->input('content');
+        $post->save();
         return redirect()->route('admin.index')
             ->with('info',"Post updated, new Title: " . $request->input('title'));
     }
+
+    public function getAdminDelete($id){
+        $post = Post::find($id);
+        $post->delete();
+        return redirect()->route('admin.index')->with('info',"Post deleted!");
+    }
+
 }
