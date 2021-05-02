@@ -18,17 +18,17 @@ class Post extends Model
     }
 
     public function byId($session,$id){
-        return $this->all($session)[$id];
+        return $this->getAll($session)[$id];
     }
 
     public function addNew($session, $title, $content){
-        $posts = $this->all($session);
+        $posts = $this->getAll($session);
         array_push($posts, ['title'=>$title,'content'=>$content]);
         $session->put('posts',$posts);
     }
 
     public function edit($session, $id, $title, $content){
-        $posts = $this->all($session);
+        $posts = $this->getAll($session);
         $posts[$id] = ['title' => $title, 'content' => $content];
         $session->put('posts', $posts);
     }

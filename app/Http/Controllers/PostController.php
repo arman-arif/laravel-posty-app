@@ -10,7 +10,7 @@ class PostController extends Controller
 {
     public function getIndex(Store $session){
         $post = new Post();
-        $posts = $post->all($session);
+        $posts = $post->getAll($session);
 
         return view('blog.index', ['posts' => $posts]);
     }
