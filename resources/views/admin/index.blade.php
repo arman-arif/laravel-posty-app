@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.admin', ['title' => 'Admin Index'])
 
 @section('content')
     <div class="row">
@@ -15,7 +15,11 @@
     <div class="row">
         <div class="col-md-12">
             @foreach($posts as $post)
-                <p><strong>{{ $post['title'] }}</strong> <a href="{{ route('admin.edit',array_search($post,$posts)) }}">Edit</a></p>
+                <p>
+                    <strong>{{ $post->title }}</strong>
+                    <a href="{{ route('admin.edit', $post->id) }}">Edit</a>
+                    <a href="{{ route('admin.delete', ['id'=>$post->id]) }}">Delete</a>
+                </p>
             @endforeach
         </div>
     </div>
