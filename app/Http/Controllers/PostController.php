@@ -4,22 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
-use Illuminate\Session\Store;
 
 class PostController extends Controller
 {
     public function getIndex(){
-        $posts = Post::all();
+        $posts = Post::orderBy('created_at','desc')->get();
         return view('blog.index', ['posts' => $posts]);
     }
 
     public function getPost($id){
-        $post = Post::find($id);
+        $post = Post::where('id',$id)->first();
         return view('blog.post', ['post' => $post]);
     }
 
     public function getAdminIndex(){
-        $posts = Post::all();
+        $posts = Post::orderBy('created_at','desc')->get();
         return view('admin.index', ['posts' => $posts]);
     }
 
