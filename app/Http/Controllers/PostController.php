@@ -16,7 +16,7 @@ class PostController extends Controller
 
     public function getPost($id){
 //        $post = Post::where('id',$id)->first();
-        $post = Post::where('id',$id)->with('likes')->first();
+        $post = Post::where('id',$id)->with('likes','tags')->first();
         return view('blog.post', ['post' => $post]);
     }
 
@@ -70,7 +70,7 @@ class PostController extends Controller
         $post->save();
 //        $post->detach();
 //        $post->tags()->attach($request->input('tags') === null ? [] : $request->input('tags'));
-        $post->sync($request->input('tags') === null ? [] : $request->input('tags'));
+        $post->tags()->sync($request->input('tags') === null ? [] : $request->input('tags'));
 
         return redirect()->route('admin.index')
             ->with('info',"Post updated, new Title: " . $request->input('title'));
@@ -79,6 +79,7 @@ class PostController extends Controller
     public function getAdminDelete($id){
         $post = Post::find($id);
         $post->likes()->delete();
+        $post->tags()->detach();
         $post->delete();
         return redirect()->route('admin.index')->with('info',"Post deleted!");
     }
