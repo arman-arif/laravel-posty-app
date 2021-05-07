@@ -7,6 +7,8 @@ Route::get('/', [PostController::class, 'getIndex'])->name('blog.index');
 
 Route::get('post/{id}', [PostController::class, 'getPost'])->name('blog.post');
 
+Route::get('post/{id}/like', [PostController::class, 'getLikePost'])->name('blog.post.like');
+
 Route::group(['prefix'=>'admin'],function () {
 
     Route::get('/', [PostController::class, 'getAdminIndex'])->name('admin.index');
