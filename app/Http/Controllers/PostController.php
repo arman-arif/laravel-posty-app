@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Like;
 use App\Models\Post;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -13,8 +15,16 @@ class PostController extends Controller
     }
 
     public function getPost($id){
-        $post = Post::where('id',$id)->first();
+//        $post = Post::where('id',$id)->first();
+        $post = Post::where('id',$id)->with('likes')->first();
         return view('blog.post', ['post' => $post]);
+    }
+
+    public function getLikePost($id){
+        $post = Post::where('id',$id)->first();
+        $like = new Like();
+        $post->likes()->save($like);
+        return redirect()->back();
     }
 
     public function getAdminIndex(){
@@ -23,12 +33,14 @@ class PostController extends Controller
     }
 
     public function getAdminCreate(){
-        return view('admin.create');
+        $tags = Tag::all();
+        return view('admin.create', ['tags' => $tags]);
     }
 
     public function getAdminEdit($id){
         $post = Post::find($id);
-        return view('admin.edit',['post' => $post]);
+        $tags = Tag::all();
+        return view('admin.edit',['post' => $post,'tags' => $tags]);
     }
 
     public function postAdminCreate(Request $request){
@@ -41,6 +53,7 @@ class PostController extends Controller
             'content' => $request->input('content'),
         ]);
         $post->save();
+        $post->tags()->attach($request->input('tags') === null ? [] : $request->input('tags'));
 
         return redirect()->route('admin.index')
             ->with('info',"New post created, Title: " . $request->input('title'));
@@ -55,12 +68,17 @@ class PostController extends Controller
         $post->title = $request->input('title');
         $post->content = $request->input('content');
         $post->save();
+//        $post->detach();
+//        $post->tags()->attach($request->input('tags') === null ? [] : $request->input('tags'));
+        $post->sync($request->input('tags') === null ? [] : $request->input('tags'));
+
         return redirect()->route('admin.index')
             ->with('info',"Post updated, new Title: " . $request->input('title'));
     }
 
     public function getAdminDelete($id){
         $post = Post::find($id);
+        $post->likes()->delete();
         $post->delete();
         return redirect()->route('admin.index')->with('info',"Post deleted!");
     }
