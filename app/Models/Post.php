@@ -22,4 +22,14 @@ class Post extends Model
         //return $this->belongsToMany('App\Models\Tag','post_tag','post_id','tag_id');
         return $this->belongsToMany(Tag::class)->withTimestamps();
     }
+
+    public function setTitleAttribute($value)
+    {
+        $this->attributes['title'] = strtolower($value);
+    }
+
+    public function getTitleAttribute($value)
+    {
+        return ucwords($value);
+    }
 }
