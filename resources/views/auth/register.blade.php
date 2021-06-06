@@ -1,13 +1,13 @@
-@extends('layouts.app')
+@extends('layouts.master')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
+<main class="py-4">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">{{ __('Register') }}</div>
 
-                <div class="card-body">
+                <div class="panel-body">
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
 
@@ -73,5 +73,5 @@
             </div>
         </div>
     </div>
-</div>
+</main>
 @endsection
