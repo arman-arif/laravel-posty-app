@@ -6,6 +6,7 @@ use App\Models\Like;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -53,14 +54,20 @@ class PostController extends Controller
     public function postAdminCreate(Request $request)
     {
         $this->validate($request, [
-            'title' => 'required|min:10',
-            'content' => 'required|min:20',
+            'title' => 'required|min:5',
+            'content' => 'required|min:10',
         ]);
+
+        $user = Auth::user();
+        if (!$user) {
+            return redirect()->back();
+        }
         $post = new Post([
             'title' => $request->input('title'),
             'content' => $request->input('content'),
         ]);
-        $post->save();
+//        $post->save();
+        $user->posts()->save($post);
         $post->tags()->attach($request->input('tags') === null ? [] : $request->input('tags'));
 
         return redirect()->route('admin.index')
@@ -70,8 +77,8 @@ class PostController extends Controller
     public function postAdminUpdate(Request $request)
     {
         $this->validate($request, [
-            'title' => 'required|min:10',
-            'content' => 'required|min:20',
+            'title' => 'required|min:5',
+            'content' => 'required|min:10',
         ]);
         $post = Post::find($request->input('id'));
         $post->title = $request->input('title');

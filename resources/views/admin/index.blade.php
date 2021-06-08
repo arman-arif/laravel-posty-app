@@ -14,13 +14,20 @@
     <hr>
     <div class="row">
         <div class="col-md-12">
-            @foreach($posts as $post)
-                <p>
-                    <strong>{{ $post->title }}</strong>
-                    <a href="{{ route('admin.edit', $post->id) }}">Edit</a>
-                    <a href="{{ route('admin.delete', ['id'=>$post->id]) }}">Delete</a>
-                </p>
-            @endforeach
+            <table class="table table-hover" style="width:100%">
+                @foreach($posts as $post)
+                    <tr>
+                        <td>
+                            <strong>{{ $post->title }}</strong>
+                        </td>
+                        <td>
+                            <a class="pr-2" href="{{ route('admin.edit', $post->id) }}">Edit</a>
+                            <a href="{{ route('admin.delete', ['id'=>$post->id]) }}">Delete</a>
+                        </td>
+                    </tr>
+                @endforeach
+            </table>
+
         </div>
     </div>
 @endsection
