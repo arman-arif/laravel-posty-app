@@ -1,4 +1,4 @@
-@extends('layouts.admin',  ['title' => 'Edit and update post'])
+@extends('layouts.master',  ['title' => 'Edit and update post'])
 
 @section('content')
     <div class="row">
