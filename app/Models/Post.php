@@ -23,6 +23,11 @@ class Post extends Model
         return $this->belongsToMany(Tag::class)->withTimestamps();
     }
 
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
+
     public function setTitleAttribute($value)
     {
         $this->attributes['title'] = strtolower($value);
