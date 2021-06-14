@@ -7,13 +7,14 @@ use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
 {
     public function getIndex()
     {
         // $posts = Post::orderBy('created_at','desc')->get();
-        $posts = Post::orderBy('created_at', 'desc')->paginate(3);
+        $posts = Post::orderBy('created_at', 'desc')->paginate(2);
         return view('blog.index', ['posts' => $posts]);
     }
 
@@ -75,11 +76,12 @@ class PostController extends Controller
         if (!$user) {
             return redirect()->back();
         }
+
         $post = new Post([
             'title' => $request->input('title'),
             'content' => $request->input('content'),
         ]);
-//        $post->save();
+        //$post->save();
         $user->posts()->save($post);
         $post->tags()->attach($request->input('tags') === null ? [] : $request->input('tags'));
 
@@ -98,11 +100,14 @@ class PostController extends Controller
             'content' => 'required|min:10',
         ]);
         $post = Post::find($request->input('id'));
+        if (Gate::denies('update-post', $post)) {
+            return redirect()->route('admin.index')->with('info', 'Your are not authorised!');
+        }
         $post->title = $request->input('title');
         $post->content = $request->input('content');
         $post->save();
-        //        $post->detach();
-        //        $post->tags()->attach($request->input('tags') === null ? [] : $request->input('tags'));
+        //$post->detach();
+        //$post->tags()->attach($request->input('tags') === null ? [] : $request->input('tags'));
         $post->tags()->sync($request->input('tags') === null ? [] : $request->input('tags'));
 
         return redirect()->route('admin.index')
@@ -116,6 +121,9 @@ class PostController extends Controller
         }
 
         $post = Post::find($id);
+        if (Gate::denies('update-post', $post)) {
+            return redirect()->back()->with('info', 'Your are not authorised!');
+        }
         $post->likes()->delete();
         $post->tags()->detach();
         $post->delete();
