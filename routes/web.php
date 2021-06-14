@@ -29,3 +29,4 @@ Route::view('about', 'other.about')->name('other.about');
 
 Auth::routes();
 
+Route::post('login',[\App\Http\Controllers\SigninController::class, 'signin'])->name('auth.login');
