@@ -17,11 +17,11 @@
             <table class="table table-hover" style="width:100%">
                 @foreach($posts as $post)
                     <tr>
+                        <td> <strong>{{ $post->title }}</strong> </td>
+                        <td> - {{ $post->updated_at->diffForHumans() }} </td>
+                        <td> {{ $post->user->name }} </td>
                         <td>
-                            <strong>{{ $post->title }}</strong> - {{ $post->updated_at->diffForHumans() }}
-                        </td>
-                        <td>
-                            <a class="pr-2" href="{{ route('admin.edit', $post->id) }}">Edit</a>
+                            <a class="pr-2 badge badge-warning" href="{{ route('admin.edit', $post->id) }}">Edit</a>
                             <a href="{{ route('admin.delete', ['id'=>$post->id]) }}">Delete</a>
                         </td>
                     </tr>

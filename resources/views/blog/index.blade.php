@@ -18,6 +18,7 @@
             </p>
             <p>{{ $post->content }}</p>
             <p><a href="{{ route('blog.post', ['id' => $post->id]) }}">Read more...</a></p>
+            <small class="text-white-50">{{ $post->created_at->format('M d, Y') }}</small>
         </div>
     </div>
     <hr>
