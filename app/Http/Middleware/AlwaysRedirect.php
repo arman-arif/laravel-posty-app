@@ -16,6 +16,9 @@ class AlwaysRedirect
      */
     public function handle(Request $request, Closure $next)
     {
+        if ($request->path() == 'about') {
+            return redirect('/');
+        }
         return $next($request);
     }
 }
