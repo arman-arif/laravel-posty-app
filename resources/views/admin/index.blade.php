@@ -18,7 +18,7 @@
                 @foreach($posts as $post)
                     <tr>
                         <td> <strong>{{ $post->title }}</strong> </td>
-                        <td> - {{ $post->updated_at->diffForHumans() }} </td>
+                        <td> {{ $post->updated_at->diffForHumans() }} </td>
                         <td> {{ $post->user->name }} </td>
                         <td>
                             <a class="pr-2 badge badge-warning" href="{{ route('admin.edit', $post->id) }}">Edit</a>
